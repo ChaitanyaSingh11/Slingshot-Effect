@@ -2,6 +2,7 @@ const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
+const Body = Matter.Body;
 
 var engine, world;
 var box1, pig1;
@@ -13,7 +14,7 @@ function preload() {
 }
 
 function setup(){
-    var canvas = createCanvas(1200,400);
+   createCanvas(1200,400);
     engine = Engine.create();
     world = engine.world;
 
@@ -37,9 +38,7 @@ function setup(){
     log5 = new Log(870,120,150, -PI/7);
 
     bird = new Bird(100,100);
-
-    log6 = new Log(230,180,80, PI/2);
-    chain = new Chain(bird.body,log6.body);
+    slingshot = new Slingshot(bird.body,{x:200,y:100});
 }
 
 function draw(){
@@ -62,7 +61,14 @@ function draw(){
     log5.display();
 
     bird.display();
+    slingshot.display();
     platform.display();
-    log6.display();
-    chain.display();    
+}
+
+function mouseDragged(){
+    Body.setPosition(bird.body,{x:mouseX, y:mouseY});
+}
+
+function mouseReleased(){
+    slingshot.fly();
 }
